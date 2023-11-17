@@ -1,0 +1,102 @@
+mysql -u root
+CREATE DATABASE cars;
+USE cars
+CREATE TABLE new (brand VARCHAR (10), model VARCHAR (10), year YEAR, price INT);
+SHOW TABLES;
+
+                    +----------------+
+                    | Tables_in_cars |
+                    +----------------+
+                    | new            |
+                    | used           |
+                    +----------------+
+
+DESCRIBE new;
+
+        +-------+-------------+------+-----+---------+-------+
+        | Field | Type        | Null | Key | Default | Extra |
+        +-------+-------------+------+-----+---------+-------+
+        | brand | varchar(10) | YES  |     | NULL    |       |
+        | model | varchar(10) | YES  |     | NULL    |       |
+        | year  | year        | YES  |     | NULL    |       |
+        | price | int         | YES  |     | NULL    |       |
+        +-------+-------------+------+-----+---------+-------+
+
+exit
+
+Чтобы заполнить можно создать текстовые файлы с перечислением данных через TAB.
+
+mysql --local-infile=1 - заходим в mysql в режиме, чтобы можно было добавлять данные из текстового файла
+USE cars;
+SET GLOBAL local_infile=1;
+LOAD DATA LOCAL INFILE "/root/cars_new.txt" INTO TABLE new;
+LOAD DATA LOCAL INFILE "/root/cars_used.txt" INTO TABLE new;
+
+DELETE FROM `new` WHERE `brand` = "Lada"; - удалить строку, если по ошибке внесли запись в таблицу
+
+SELECT * FROM new;
+SELECT * FROM used; - показывает таблицу
+
+INSERT INTO new (brand, model, year) VALUES ("Daewoo", "Nexia", "2014"); - добавим строку вручную
+INSERT INTO new (brand, model, year) VALUES ("Daewoo", "Matiz", 2015) - год можно писать и без кавычек, так как значение INT у него походу
+
+DELETE FROM new WHERE model = "Matiz";
+
+exit - выйти из командной строки mysql
+
+mysql cars -u root - войти сразу в БД cars
+SHOW TABLES; - смотрим какие есть таблицы
+SELECT * FROM new; - смотрим содержимое таблиц
+
+            +--------+--------+------+--------+
+            | brand  | model  | year | price  |
+            +--------+--------+------+--------+
+            | Kia    | Cerato | 2014 | 780000 |
+            | Kia    | Rio    | 2015 | 620000 |
+            | Ford   | Focus  | 2016 | 820000 |
+            | Daewoo | Nexia  | 2014 |   NULL |
+            +--------+--------+------+--------+
+
+SELECT * FROM used;
+SELECT model FROM new;
+
+                    +--------+
+                    | model  |
+                    +--------+
+                    | Cerato |
+                    | Rio    |
+                    | Focus  |
+                    | Nexia  |
+                    +--------+
+
+SELECT * FROM new WHERE brand = "Kia";
+
+            +-------+--------+------+--------+
+            | brand | model  | year | price  |
+            +-------+--------+------+--------+
+            | Kia   | Cerato | 2014 | 780000 |
+            | Kia   | Rio    | 2015 | 620000 |
+            +-------+--------+------+--------+
+
+SELECT * FROM new WHERE brand = "Kia" AND year = 2015;
+
+SELECT model  FROM new WHERE brand = "Kia" AND year = 2015;
+                    
+                    +-------+
+                    | model |
+                    +-------+
+                    | Rio   |
+                    +-------+
+
+UPDATE new SET model="Kuga" WHERE model="Focus"; - редактируем выбранные значения
+
+SELECT * FROM new JOIN used ON new.brand = used.brand; - обьединить таблицы по условиям
+      
+        +-------+--------+------+--------+-------+--------+------+--------+
+        | brand | model  | year | price  | brand | model  | year | price  |
+        +-------+--------+------+--------+-------+--------+------+--------+
+        | Kia   | Cerato | 2014 | 780000 | Kia   | Cerato | 2012 | 480000 |
+        | Kia   | Rio    | 2015 | 620000 | Kia   | Cerato | 2012 | 480000 |
+        +-------+--------+------+--------+-------+--------+------+--------+
+
+SELECT * FROM new ORDER BY brand; - отсортировать по бренду
