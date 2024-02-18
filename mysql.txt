@@ -7,6 +7,8 @@ CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзер�
 ALTER USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзер для БД есть
 Именно юзер для БД, а не системный (кроме рута, он есть автоматически)
 
+КАВЫЧКИ В КОНЦЕ ЭТО ВАЖНО - ;
+
 CREATE DATABASE cars;
 USE cars
 CREATE TABLE new (brand VARCHAR (10), model VARCHAR (10), year YEAR, price INT);
@@ -109,4 +111,5 @@ SELECT * FROM new JOIN used ON new.brand = used.brand; - обьединить т
 
 SELECT * FROM new ORDER BY brand; - отсортировать по бренду
 
-
+sudo mysqldump -uroot -pпароль имя_базы > dump.sql - экспорт БД в файл 
+sudo mysql --user=root --password=ваш_пароль имя_базы_данных < бэкап.sql - импортировать готовую БД
