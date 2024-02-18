@@ -1,4 +1,12 @@
-mysql -u root
+mysql -u root -p
+вводим пароль
+
+Для установки пароля:
+
+CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзера для БД нет
+ALTER USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзер для БД есть
+Именно юзер для БД, а не системный (кроме рута, он есть автоматически)
+
 CREATE DATABASE cars;
 USE cars
 CREATE TABLE new (brand VARCHAR (10), model VARCHAR (10), year YEAR, price INT);
