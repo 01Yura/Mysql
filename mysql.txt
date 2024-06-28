@@ -1,8 +1,11 @@
-mysql -u root -p
+apt install mysql-server - усиановит сервер БД и клиент чтобы можно было подклбчится
+
+mysql -u root -p - если пароль не вводили при создании базы, то не надо -p
 вводим пароль
 
 Для установки пароля:
 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; - для рута 
 CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзера для БД нет
 ALTER USER 'jeffrey'@'localhost' IDENTIFIED BY 'password'; - если юзер для БД есть
 Именно юзер для БД, а не системный (кроме рута, он есть автоматически)
